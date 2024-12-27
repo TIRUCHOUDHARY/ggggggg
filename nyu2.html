@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product & Seller Reviews and Ratings</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f9f7;
+        }
+
+        .container {
+            width: 85%;
+            margin: 0 auto;
+            padding-top: 60px;
+            padding-bottom: 60px;
+        }
+
+        h2 {
+            font-size: 32px;
+            color: #2c6b38;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
+        }
+
+        h2:hover {
+            color: #1e5e29;
+        }
+
+        .review-section {
+            background-color: #ffffff;
+            padding: 35px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            margin-bottom: 50px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .review-section:hover {
+            transform: scale(1.02);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .rating-summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            font-weight: 500;
+            color: #4a4a4a;
+        }
+
+        .rating-summary span {
+            font-size: 18px;
+        }
+
+        .reviews-list {
+            margin-bottom: 25px;
+        }
+
+        .review {
+            background-color: #e9f7e6;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .review:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .review-header strong {
+            font-size: 18px;
+            color: #2c6b38;
+        }
+
+        .rating {
+            color: #ffd700;
+            font-size: 18px;
+        }
+
+        .submit-review {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #ddd;
+        }
+
+        .submit-review form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .rating-stars select,
+        #review-text,
+        #seller-feedback {
+            padding: 14px 18px;
+            font-size: 16px;
+            margin-bottom: 15px;
+            border-radius: 12px;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+            transition: background-color 0.3s ease, border 0.3s ease;
+            box-sizing: border-box;
+            width: 100%;
+        }
+
+        .rating-stars select:focus,
+        #review-text:focus,
+        #seller-feedback:focus {
+            background-color: #eaf2e0;
+            border-color: #2c6b38;
+            outline: none;
+            box-shadow: 0 0 10px rgba(44, 107, 56, 0.3);
+        }
+
+        /* Textarea Focus */
+        #review-text,
+        #seller-feedback {
+            height: 120px;
+            resize: vertical;
+            transition: height 0.2s ease-in-out;
+        }
+
+        #review-text:focus,
+        #seller-feedback:focus {
+            height: 160px;
+        }
+
+        .btn-submit {
+            background-color: #2c6b38;
+            color: white;
+            padding: 14px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .btn-submit:hover {
+            background-color: #1e5e29;
+            transform: scale(1.05);
+        }
+
+        /* Animations */
+        .fade-in {
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+            }
+
+            h2 {
+                font-size: 28px;
+            }
+
+            .review-section {
+                padding: 25px;
+            }
+
+            .review {
+                padding: 15px;
+            }
+
+            .rating-summary {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .submit-review {
+                padding-top: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container fade-in">
+        <!-- Product Review Section -->
+        <div class="review-section">
+            <h2>Product Reviews</h2>
+            <div class="rating-summary">
+                <span class="avg-rating">Average Rating: <strong id="avg-rating">4.5</strong></span>
+                <span class="total-reviews" id="total-reviews">100 Reviews</span>
+            </div>
+            
+            <div class="reviews-list" id="reviews-list">
+                <!-- Reviews will be dynamically added here -->
+            </div>
+            
+            <div class="submit-review">
+                <h3>Write a Review</h3>
+                <form id="review-form">
+                    <div class="rating-stars">
+                        <label for="rating">Rating:</label>
+                        <select id="rating" name="rating">
+                            <option value="1">1 Star</option>
+                            <option value="2">2 Stars</option>
+                            <option value="3">3 Stars</option>
+                            <option value="4">4 Stars</option>
+                            <option value="5">5 Stars</option>
+                        </select>
+                    </div>
+                    <textarea id="review-text" name="review-text" placeholder="Write your review here..." required></textarea>
+                    <button type="submit" class="btn-submit">Submit Review</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Seller Rating Section -->
+        <div class="review-section">
+            <h2>Seller Ratings</h2>
+            <div class="rating-summary">
+                <span class="avg-rating">Average Rating: <strong id="seller-avg-rating">4.8</strong></span>
+                <span class="total-reviews" id="seller-total-ratings">50 Ratings</span>
+            </div>
+            <div class="submit-feedback">
+                <h3>Leave Feedback for Seller</h3>
+                <form id="seller-feedback-form">
+                    <div class="rating-stars">
+                        <label for="seller-rating">Rating:</label>
+                        <select id="seller-rating" name="seller-rating">
+                            <option value="1">1 Star</option>
+                            <option value="2">2 Stars</option>
+                            <option value="3">3 Stars</option>
+                            <option value="4">4 Stars</option>
+                            <option value="5">5 Stars</option>
+                        </select>
+                    </div>
+                    <textarea id="seller-feedback" name="seller-feedback" placeholder="Provide feedback for the seller..." required></textarea>
+                    <button type="submit" class="btn-submit">Submit Feedback</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript for managing review submission and display
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const reviewForm = document.getElementById('review-form');
+            const sellerFeedbackForm = document.getElementById('seller-feedback-form');
+            const reviewsList = document.getElementById('reviews-list');
+            
+            const productId = '123';  // Example product ID
+
+            // Fetch reviews from the backend
+            async function fetchReviews() {
+                const response = await fetch(`/api/products/${productId}/reviews`);
+                const data = await response.json();
+                
+                displayReviews(data.reviews);
+            }
+
+            // Display reviews
+            function displayReviews(reviews) {
+                reviewsList.innerHTML = '';
+                reviews.forEach(review => {
+                    const reviewElement = document.createElement('div');
+                    reviewElement.classList.add('review');
+                    reviewElement.innerHTML = `
+                        <div class="review-header">
+                            <strong>${review.user}</strong>
+                            <span class="rating">★ ${review.rating}</span>
+                        </div>
+                        <p>${review.review}</p>
+                    `;
+                    reviewsList.appendChild(reviewElement);
+                });
+            }
+
+            // Submit review form
+            reviewForm.addEventListener('submit', async function(event) {
+                event.preventDefault();
+                const rating = document.getElementById('rating').value;
+                const reviewText = document.getElementById('review-text').value;
+
+                const response = await fetch(`/api/products/${productId}/reviews`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ rating, review: reviewText })
+                });
+
+                const data = await response.json();
+                displayReviews(data.reviews); // Update review list after submission
+
+                reviewForm.reset();
+            });
+
+            // Submit seller feedback
+            sellerFeedbackForm.addEventListener('submit', async function(event) {
+                event.preventDefault();
+                const rating = document.getElementById('seller-rating').value;
+                const feedbackText = document.getElementById('seller-feedback').value;
+
+                const response = await fetch(`/api/sellers/feedback`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ rating, feedback: feedbackText })
+                });
+
+                const data = await response.json();
+                alert("Feedback submitted successfully!");
+
+                sellerFeedbackForm.reset();
+            });
+
+            // Initialize
+            fetchReviews();
+        });
+    </script>
+
+</body>
+</html>

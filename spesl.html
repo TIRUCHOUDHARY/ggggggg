@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responsive Product Filter and Map</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+  <style>
+    /* General Layout Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Body Styling */
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f9fafb;
+      color: #333;
+      margin: 0;
+    }
+
+    .header {
+      background-color: #4CAF50;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    /* Search and Filter Container */
+    .search-container {
+      display: flex;
+      justify-content: space-between;
+      padding: 20px;
+      background-color: #ffffff;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      margin-top: 20px;
+    }
+
+    .search-bar {
+      padding: 12px;
+      width: 75%;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      font-size: 16px;
+      outline: none;
+      background-color: #f7f7f7;
+    }
+
+    .search-bar:focus {
+      border-color: #4CAF50;
+    }
+
+    .filter-btn {
+      padding: 12px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+
+    .filter-btn:hover {
+      background-color: #45a049;
+    }
+
+    /* Filter Sidebar */
+    .filter-sidebar {
+      position: fixed;
+      top: 0;
+      left: -300px;
+      width: 300px;
+      height: 100%;
+      background-color: #fff;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      transition: left 0.3s ease;
+    }
+
+    .filter-sidebar.open {
+      left: 0;
+    }
+
+    .filter-sidebar h3 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: #4CAF50;
+    }
+
+    .filter-sidebar label {
+      font-size: 16px;
+      margin-bottom: 8px;
+      display: block;
+      color: #555;
+    }
+
+    .filter-sidebar select, .filter-sidebar input[type="range"] {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      background-color: #f7f7f7;
+      border: 1px solid #ddd;
+    }
+
+    .filter-sidebar select {
+      cursor: pointer;
+    }
+
+    .filter-sidebar input[type="range"] {
+      width: 100%;
+      height: 6px;
+      background-color: #ddd;
+      border-radius: 5px;
+    }
+
+    .filter-sidebar input[type="range"]::-webkit-slider-thumb {
+      width: 20px;
+      height: 20px;
+      background-color: #4CAF50;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    .apply-btn {
+      padding: 12px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      width: 100%;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .apply-btn:hover {
+      background-color: #45a049;
+    }
+
+    /* Product Grid */
+    .product-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+      padding: 20px;
+      margin-top: 20px;
+    }
+
+    .product-card {
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .product-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      transition: opacity 0.3s ease;
+    }
+
+    .product-card img:hover {
+      opacity: 0.8;
+    }
+
+    .product-card h3 {
+      font-size: 18px;
+      margin-bottom: 10px;
+      color: #333;
+      font-weight: 500;
+    }
+
+    .product-card .price {
+      font-size: 18px;
+      color: #4CAF50;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .product-card .rating {
+      font-size: 14px;
+      color: #ff9800;
+      margin: 10px 0;
+    }
+
+    .product-card .add-to-cart {
+      background-color: #4CAF50;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+
+    .product-card .add-to-cart:hover {
+      background-color: #45a049;
+    }
+
+    /* Map Container */
+    .map-container {
+      width: 100%;
+      height: 500px;
+      margin-top: 40px;
+    }
+
+    /* Responsive Design */
+    @media screen and (max-width: 768px) {
+      .product-list {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .search-container {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .search-bar {
+        width: 100%;
+        margin-bottom: 10px;
+      }
+
+      .filter-btn {
+        width: 100%;
+      }
+
+      .filter-sidebar {
+        width: 100%;
+        height: auto;
+        padding: 20px;
+        position: static;
+        box-shadow: none;
+      }
+
+      .map-container {
+        height: 300px;
+      }
+    }
+
+    @media screen and (max-width: 480px) {
+      .product-list {
+        grid-template-columns: 1fr;
+      }
+
+      .search-container {
+        align-items: center;
+        padding: 10px;
+      }
+
+      .product-card h3 {
+        font-size: 16px;
+      }
+
+      .product-card .price {
+        font-size: 16px;
+      }
+
+      .product-card .add-to-cart {
+        padding: 10px;
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">Responsive Product Search</header>
+
+  <!-- Search and Filter Container -->
+  <div class="search-container">
+    <input type="text" id="search-bar" placeholder="Search products..." class="search-bar" oninput="applyFilters()">
+    <button class="filter-btn" onclick="toggleFilters()">Filters</button>
+  </div>
+
+  <!-- Filter Sidebar -->
+  <aside class="filter-sidebar" id="filter-sidebar">
+    <h3>Filters</h3>
+    <div>
+      <label for="size-filter">Size</label>
+      <select id="size-filter" onchange="applyFilters()">
+        <option value="all">All</option>
+        <option value="small">Small</option>
+        <option value="medium">Medium</option>
+        <option value="large">Large</option>
+      </select>
+    </div>
+    <div>
+      <label for="color-filter">Color</label>
+      <select id="color-filter" onchange="applyFilters()">
+        <option value="all">All</option>
+        <option value="brown">Brown</option>
+        <option value="red">Red</option>
+        <option value="green">Green</option>
+        <option value="blue">Blue</option>
+      </select>
+    </div>
+    <div>
+      <label for="price-filter">Price Range</label>
+      <input type="range" id="price-filter" min="0" max="1000" value="500" onchange="applyFilters()">
+      <span id="price-value">500</span>
+    </div>
+    <button class="apply-btn" onclick="applyFilters()">Apply Filters</button>
+  </aside>
+
+  <!-- Product List -->
+  <section class="product-list" id="product-list"></section>
+
+  <!-- Map View -->
+  <div id="map" class="map-container"></div>
+
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+  <script>
+    // Sample Product Data
+    const products = [
+      { id: 1, name: "Handmade Wooden Chair", image: "25.jpg", price: 249, size: "medium", color: "brown", rating: 4.7, lat: 19.0760, lon: 72.8777 },
+      { id: 2, name: "Handwoven Basket", image: "26.jpg", price: 99, size: "small", color: "red", rating: 4.2, lat: 19.2183, lon: 72.9787 },
+      { id: 3, name: "Handmade Ceramic Vase", image: "27.jpg", price: 349, size: "large", color: "green", rating: 5, lat: 19.0678, lon: 72.8855 },
+      { id: 2, name: "Handwoven Basket", image: "28.jpg", price: 99, size: "small", color: "red", rating: 4.2, lat: 19.2183, lon: 72.9787 },
+      { id: 1, name: "Handmade Wooden Chair", image: "25.jpg", price: 249, size: "medium", color: "brown", rating: 4.7, lat: 19.0760, lon: 72.8777 },
+      { id: 2, name: "Handwoven Basket", image: "26.jpg", price: 99, size: "small", color: "red", rating: 4.2, lat: 19.2183, lon: 72.9787 },
+      { id: 3, name: "Handmade Ceramic Vase", image: "27.jpg", price: 349, size: "large", color: "green", rating: 5, lat: 19.0678, lon: 72.8855 },
+      { id: 2, name: "Handwoven Basket", image: "28.jpg", price: 99, size: "small", color: "red", rating: 4.2, lat: 19.2183, lon: 72.9787 },
+      { id: 3, name: "Handmade Ceramic Vase", image: "29.jpg", price: 349, size: "large", color: "green", rating: 5, lat: 19.0678, lon: 72.8855 },
+      { id: 1, name: "Handmade Wooden Chair", image: "25.jpg", price: 249, size: "medium", color: "brown", rating: 4.7, lat: 19.0760, lon: 72.8777 },
+      { id: 2, name: "Handwoven Basket", image: "26.jpg", price: 99, size: "small", color: "red", rating: 4.2, lat: 19.2183, lon: 72.9787 },
+      { id: 3, name: "Handmade Ceramic Vase", image: "27.jpg", price: 349, size: "large", color: "green", rating: 5, lat: 19.0678, lon: 72.8855 },
+      { id: 2, name: "Handwoven Basket", image: "28.jpg", price: 99, size: "small", color: "red", rating: 4.2, lat: 19.2183, lon: 72.9787 },
+      { id: 3, name: "Handmade Ceramic Vase", image: "29.jpg", price: 349, size: "large", color: "green", rating: 5, lat: 19.0678, lon: 72.8855 },
+      { id: 1, name: "Handmade Wooden Chair", image: "25.jpg", price: 249, size: "medium", color: "brown", rating: 4.7, lat: 19.0760, lon: 72.8777 },
+      { id: 2, name: "Handwoven Basket", image: "26.jpg", price: 99, size: "small", color: "red", rating: 4.2, lat: 19.2183, lon: 72.9787 },
+      { id: 3, name: "Handmade Ceramic Vase", image: "27.jpg", price: 349, size: "large", color: "green", rating: 5, lat: 19.0678, lon: 72.8855 },
+      { id: 2, name: "Handwoven Basket", image: "28.jpg", price: 99, size: "small", color: "red", rating: 4.2, lat: 19.2183, lon: 72.9787 },
+      { id: 3, name: "Handmade Ceramic Vase", image: "29.jpg", price: 349, size: "large", color: "green", rating: 5, lat: 19.0678, lon: 72.8855 },
+      { id: 1, name: "Handmade Wooden Chair", image: "25.jpg", price: 249, size: "medium", color: "brown", rating: 4.7, lat: 19.0760, lon: 72.8777 },
+      { id: 2, name: "Handwoven Basket", image: "26.jpg", price: 99, size: "small", color: "red", rating: 4.2, lat: 19.2183, lon: 72.9787 },
+      { id: 3, name: "Handmade Ceramic Vase", image: "27.jpg", price: 349, size: "large", color: "green", rating: 5, lat: 19.0678, lon: 72.8855 },
+      { id: 2, name: "Handwoven Basket", image: "28.jpg", price: 99, size: "small", color: "red", rating: 4.2, lat: 19.2183, lon: 72.9787 },
+      { id: 3, name: "Handmade Ceramic Vase", image: "29.jpg", price: 349, size: "large", color: "green", rating: 5, lat: 19.0678, lon: 72.8855 },
+      { id: 3, name: "Handmade Ceramic Vase", image: "29.jpg", price: 349, size: "large", color: "green", rating: 5, lat: 19.0678, lon: 72.8855 },
+      // Add more products here
+    ];
+
+    // Display products
+    function displayProducts(filteredProducts) {
+      const productList = document.getElementById('product-list');
+      productList.innerHTML = '';
+      filteredProducts.forEach(product => {
+        const productCard = document.createElement('div');
+        productCard.classList.add('product-card');
+        productCard.innerHTML = `
+          <img src="${product.image}" alt="${product.name}">
+          <h3>${product.name}</h3>
+          <p class="price">$${product.price}</p>
+          <div class="rating">${"★".repeat(Math.floor(product.rating))}${"☆".repeat(5 - Math.floor(product.rating))} (${(product.rating / 5 * 100).toFixed(1)}%)</div>
+          <button class="add-to-cart">Add to Cart</button>
+        `;
+        productList.appendChild(productCard);
+      });
+    }
+
+    // Apply filters
+    function applyFilters() {
+      const searchTerm = document.getElementById('search-bar').value.toLowerCase();
+      const sizeFilter = document.getElementById('size-filter').value;
+      const colorFilter = document.getElementById('color-filter').value;
+      const priceFilter = document.getElementById('price-filter').value;
+
+      const filteredProducts = products.filter(product => {
+        const matchesSearch = product.name.toLowerCase().includes(searchTerm);
+        const matchesSize = sizeFilter === 'all' || product.size === sizeFilter;
+        const matchesColor = colorFilter === 'all' || product.color === colorFilter;
+        const matchesPrice = product.price <= priceFilter;
+
+        return matchesSearch && matchesSize && matchesColor && matchesPrice;
+      });
+
+      document.getElementById('price-value').textContent = priceFilter;
+      displayProducts(filteredProducts);
+    }
+
+    // Toggle filter sidebar visibility
+    function toggleFilters() {
+      document.getElementById('filter-sidebar').classList.toggle('open');
+    }
+
+    // Initialize map
+    function initializeMap() {
+      const map = L.map('map').setView([19.0760, 72.8777], 10);
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
+
+      // Add markers for product locations
+      products.forEach(product => {
+        L.marker([product.lat, product.lon])
+          .addTo(map)
+          .bindPopup(`<b>${product.name}</b><br>Price: $${product.price}<br>Location: (${product.lat}, ${product.lon})`);
+      });
+    }
+
+    // Initialize products and map
+    displayProducts(products);
+    initializeMap();
+  </script>
+</body>
+</html>

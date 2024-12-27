@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skill Exchange Workshops</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* General Styling */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        .header {
+            background-color: #3498db;
+            color: #fff;
+            padding: 80px 20px;
+            text-align: center;
+            font-size: 2.5rem;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 40px;
+            color: #333;
+            text-transform: uppercase;
+            font-weight: bold;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        .workshop-section,
+        .recorded-video {
+            padding: 60px 20px;
+            text-align: center;
+            background-color: #fff;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .workshop-card,
+        .video-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .workshop-card:hover,
+        .video-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .workshop-card h5, .video-card h5 {
+            font-size: 1.7rem;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.2rem;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .btn:hover {
+            background-color: #2980b9;
+        }
+
+        iframe {
+            width: 100%;
+            height: 450px;
+            border-radius: 10px;
+            border: none;
+            transition: transform 0.5s ease;
+        }
+
+        iframe:hover {
+            transform: scale(1.05);
+        }
+
+        .footer {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 1rem;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .header {
+                padding: 60px 20px;
+                font-size: 2rem;
+            }
+
+            .workshop-card,
+            .video-card {
+                padding: 15px;
+            }
+
+            iframe {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header Section -->
+<div class="header">
+    <h1>Skill Exchange Workshops</h1>
+    <p>Join workshops to learn, share, and grow!</p>
+</div>
+
+<!-- Live Workshop Section -->
+<div class="workshop-section">
+    <h2 class="section-title">Live Workshops</h2>
+
+    <!-- Workshop Card 1 -->
+    <div class="workshop-card">
+        <h5>Organic Farming Techniques</h5>
+        <p>Join our live workshop on organic farming and sustainable agriculture practices.</p>
+        <!-- Zoom Button (Link) -->
+        <button class="btn" onclick="window.location.href='https://zoom.us/j/123456789?pwd=abcdef'">Join Live (Zoom)</button>
+        <!-- Google Meet Button -->
+        <button class="btn" onclick="window.location.href='https://meet.google.com/abc-defg-hij'">Join Live (Google Meet)</button>
+    </div>
+
+    <!-- Add more workshops similarly if needed -->
+</div>
+
+<!-- Recorded Tutorials Section -->
+<div class="recorded-video">
+    <h2 class="section-title">Recorded Tutorials</h2>
+
+    <!-- Video Card with AWS S3 -->
+    <div class="video-card">
+        <h5>Introduction to Organic Farming</h5>
+        <p>Watch the tutorial for an introduction to organic farming techniques.</p>
+        <button class="btn" onclick="loadVideo('s3')">Play on AWS S3</button>
+        <button class="btn" onclick="loadVideo('vimeo')">Play on Vimeo</button>
+
+        <!-- Video Container for Dynamic Embedding -->
+        <div id="video-container" style="display: none;">
+            <iframe id="video-player" src="" title="Tutorial Video"></iframe>
+        </div>
+    </div>
+
+    <!-- Add more recorded tutorials similarly -->
+</div>
+
+<!-- Footer Section -->
+<div class="footer">
+    <p>&copy; 2024 Village Connect Platform. All rights reserved.</p>
+</div>
+
+<script>
+    function loadVideo(platform) {
+        var videoContainer = document.getElementById('video-container');
+        var videoPlayer = document.getElementById('video-player');
+        
+        // Reset iframe and make it visible
+        videoContainer.style.display = 'block';
+
+        if (platform === 's3') {
+            videoPlayer.src = "https://your-bucket-name.s3.amazonaws.com/your-video-file.mp4";  // AWS S3 video URL
+        } else if (platform === 'vimeo') {
+            videoPlayer.src = "https://player.vimeo.com/video/YOUR_VIDEO_ID";  // Vimeo video ID
+        }
+    }
+</script>
+
+</body>
+</html>

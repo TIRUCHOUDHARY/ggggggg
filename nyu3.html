@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f6f9;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            font-size: 32px;
+            text-align: center;
+            margin-bottom: 40px;
+            border-radius: 10px 10px 0 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Container */
+        .container {
+            width: 100%;
+            padding: 20px;
+            max-width: 1500px;
+            margin: 0 auto;
+        }
+
+        /* Dashboard Layout */
+        .dashboard {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+        }
+
+        /* Box Styling */
+        .widget {
+            background: #ffffff;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            padding: 30px ;
+            flex-basis: 48%;
+            width: 100%;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 20px;
+            background-color: #f9f9f9;
+        }
+
+        .widget:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .widget h3 {
+            font-size: 26px;
+            color: #4CAF50;
+            margin-bottom: 20px;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .widget p {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        /* Button and Inputs */
+        .wishlist-button {
+            background-color: #28a745;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            font-size: 18px;
+        }
+
+        .wishlist-button:hover {
+            background-color: #218838;
+            transform: scale(1.05);
+        }
+
+        .promo-code-form input, .promo-code-form button {
+            padding: 14px;
+            margin: 12px 0;
+            width: 100%;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .promo-code-form input {
+            background-color: #f8f9fa;
+        }
+
+        .promo-code-form button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .promo-code-form button:hover {
+            background-color: #45a049;
+        }
+
+        /* Sales Stats */
+        .sales-chart {
+            height: 300px;
+            width: 100%;
+            background-color: #e9ecef;
+            border-radius: 12px;
+            padding: 10px;
+            margin-top: 20px;
+        }
+
+        /* Responsive Layout */
+        @media (max-width: 768px) {
+            .widget {
+                flex-basis: 100%;
+            }
+
+            header {
+                font-size: 24px;
+                padding: 15px;
+            }
+
+            .wishlist-button {
+                padding: 10px 20px;
+                font-size: 16px;
+            }
+
+            .promo-code-form input, .promo-code-form button {
+                padding: 12px;
+                font-size: 14px;
+            }
+
+            .sales-chart {
+                height: 250px;
+            }
+        }
+
+        /* Very Small Screens */
+        @media (max-width: 480px) {
+            header {
+                font-size: 20px;
+            }
+
+            .widget h3 {
+                font-size: 22px;
+            }
+
+            .wishlist-button {
+                padding: 8px 18px;
+                font-size: 14px;
+            }
+
+            .promo-code-form input, .promo-code-form button {
+                padding: 10px;
+                font-size: 14px;
+            }
+
+            .sales-chart {
+                height: 200px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    Customizable User Dashboard
+</header>
+
+<div class="container">
+    <div class="dashboard">
+
+        <!-- Buyer's Section -->
+        <div class="widget">
+            <h3>Your Wishlist</h3>
+            <button class="wishlist-button" onclick="addToWishlist(1)">Add Product 1 to Wishlist</button>
+            <div id="wishlist"></div>
+        </div>
+
+        <div class="widget">
+            <h3>Your Order History</h3>
+            <div id="order-history"></div>
+        </div>
+
+        <!-- Seller's Section -->
+        <div class="widget">
+            <h3>Sales Statistics</h3>
+            <div>
+                <p><strong>Total Products Sold:</strong> <span id="products-sold">0</span></p>
+                <p><strong>Total Earnings:</strong> $<span id="total-earnings">0.00</span></p>
+            </div>
+            <div class="sales-chart" id="salesChart"></div>
+        </div>
+
+        <div class="widget">
+            <h3>Create Promo Code</h3>
+            <form class="promo-code-form" id="promo-form" onsubmit="createPromoCode(event)">
+                <input type="text" id="promo-code" placeholder="Promo Code" required>
+                <input type="number" id="discount" placeholder="Discount Percentage" required>
+                <input type="date" id="valid-until" required>
+                <button type="submit">Create Promo Code</button>
+            </form>
+
+            <h4>Your Promo Codes</h4>
+            <div id="promo-codes"></div>
+        </div>
+
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+// Sample Data for Wishlist, Orders, and Promo Codes
+const wishlist = [{ product_id: 1, name: "Product 1" }];
+const orders = [{ order_id: 123, status: "Shipped", tracking: "ABC123" }];
+const promoCodes = [{ code: "SUMMER10", discount: 10, valid_until: "2024-12-31" }];
+
+// Add Product to Wishlist
+function addToWishlist(productId) {
+    const product = { product_id: productId, name: `Product ${productId}` };
+    wishlist.push(product);
+    loadWishlist();
+}
+
+// Load Wishlist into the DOM
+function loadWishlist() {
+    const wishlistContainer = document.getElementById("wishlist");
+    wishlistContainer.innerHTML = "";
+    wishlist.forEach(item => {
+        const div = document.createElement("div");
+        div.classList.add("product-item");
+        div.innerHTML = item.name;
+        wishlistContainer.appendChild(div);
+    });
+}
+
+// Load Order History into the DOM
+function loadOrderHistory() {
+    const orderHistoryContainer = document.getElementById("order-history");
+    orderHistoryContainer.innerHTML = "";
+    orders.forEach(order => {
+        const div = document.createElement("div");
+        div.classList.add("order-item");
+        div.innerHTML = `Order ID: ${order.order_id}<br>Status: ${order.status}<br>Tracking: ${order.tracking}`;
+        orderHistoryContainer.appendChild(div);
+    });
+}
+
+// Load Promo Codes into the DOM
+function loadPromoCodes() {
+    const promoCodesContainer = document.getElementById("promo-codes");
+    promoCodesContainer.innerHTML = "";
+    promoCodes.forEach(promo => {
+        const div = document.createElement("div");
+        div.classList.add("promo-code");
+        div.innerHTML = `Code: ${promo.code} | Discount: ${promo.discount}% | Valid until: ${promo.valid_until}`;
+        promoCodesContainer.appendChild(div);
+    });
+}
+
+// Handle Promo Code Creation
+function createPromoCode(event) {
+    event.preventDefault();
+    const code = document.getElementById("promo-code").value;
+    const discount = document.getElementById("discount").value;
+    const validUntil = document.getElementById("valid-until").value;
+    const newPromo = { code, discount: parseInt(discount), valid_until: validUntil };
+    promoCodes.push(newPromo);
+    loadPromoCodes();
+    alert("Promo code created!");
+}
+
+// Load Sales Statistics (Simulated)
+function loadSalesStats() {
+    const totalSales = 50;
+    const totalEarnings = 1500.00;
+    document.getElementById("products-sold").textContent = totalSales;
+    document.getElementById("total-earnings").textContent = totalEarnings.toFixed(2);
+
+    // Sales Chart (Chart.js)
+    const ctx = document.getElementById('salesChart').getContext('2d');
+    const salesChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['January', 'February', 'March', 'April'],
+            datasets: [{
+                label: 'Sales',
+                data: [20, 30, 40, 50],
+                borderColor: '#4CAF50',
+                backgroundColor: 'rgba(76, 175, 80, 0.2)',
+                borderWidth: 2
+            }]
+        }
+    });
+}
+
+// Initialize the dashboard
+function initDashboard() {
+    loadWishlist();
+    loadOrderHistory();
+    loadPromoCodes();
+    loadSalesStats();
+}
+
+initDashboard();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Village Connect Platform</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Hero Section Styling */
+        .hero {
+            background-image: url('banner.jpg'); /* Replace with your image URL */
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 100px 20px;
+            position: relative;
+        }
+        .hero a {
+            background-color: #ff5722;
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            font-size: 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .hero a:hover {
+            background-color: #e64a19;
+        }
+
+        /* Features Section Styling */
+        .features {
+            padding: 50px 20px;
+            background-color: #f9f9f9;
+            text-align: center;
+        }
+
+        .features .feature-card {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .features .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .features h4 a {
+            text-decoration: none;
+            font-size: 1.2rem;
+        }
+
+        /* Navbar Sticky */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        /* Footer Section Styling */
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        .social-links a {
+            font-size: 20px;
+            margin: 0 10px;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: #ff5722;
+        }
+
+        /* Modal Styling */
+        .modal-content {
+            border-radius: 10px;
+        }
+
+        .modal-header {
+            border-bottom: none;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .hero p {
+                font-size: 1.2rem;
+            }
+        }
+        .product-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        .product-card:hover {
+            transform: translateY(-10px);
+        }
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .product-card .card-body {
+            padding: 15px;
+        }
+        .product-card .card-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        .product-card .price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ff5722;
+        }
+        .search-bar {
+            margin: 20px 0;
+        }
+        
+        /* Product Details Page Styling */
+        .product-details {
+            padding: 40px 0;
+        }
+        .product-details img {
+            width: 90%;
+            padding-left: 5%;
+            height: auto;
+            max-width: 400px;
+        }
+        .product-details .price {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ff5722;
+        }
+        .product-details .add-to-cart-btn {
+            margin-top: 20px;
+            background-color: #28a745;
+            color: white;
+            font-size: 1.2rem;
+            padding: 10px 60px;
+            border-radius: 5px;
+        }
+        .product-details .add-to-cart-btn:hover {
+            background-color: #218838;
+        }
+       
+
+header, footer {
+    background-color: #ff0000;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+/* Navbar Styles */
+.navbar {
+    background-color: #ffffff;
+}
+
+.navbar-brand {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Product Form Styles */
+#addProductSection, #viewProductSection {
+    margin-top: 50px;
+}
+
+.form-control, .form-select, .btn {
+    border-radius: 8px;
+}
+
+.form-control:focus, .form-select:focus {
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+/* Animation for elements */
+.animate__animated {
+    animation-duration: 1s;
+    animation-fill-mode: both;
+}
+
+.animate__fadeIn {
+    animation-name: fadeIn;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.animate__fadeIn.animate__delay-1s {
+    animation-delay: 1s;
+}
+
+/* Table Styles */
+.table {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.table-hover tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+thead {
+    background-color: #007bff;
+    color: white;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+}
+
+button {
+    border-radius: 5px;
+    transition: transform 0.3s ease;
+}
+
+button:hover {
+    transform: scale(1.1);
+}
+
+/* Back Button Styles */
+#backBtn {
+    background-color: #e0e0e0;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+#backBtn:hover {
+    background-color: #ccc;
+}
+.social-links a {
+            font-size: 20px;
+            margin: 0 10px;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: #ff5722;
+        }
+
+        /* Modal Styling */
+        .modal-content {
+            border-radius: 10px;
+        }
+
+        .modal-header {
+            border-bottom: none;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .hero p {
+                font-size: 1.2rem;
+            }
+        }
+
+        .product-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .product-card .card-body {
+            padding: 15px;
+        }
+
+        .product-card .card-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .product-card .price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ff5722;
+        }
+
+        .search-bar {
+            margin: 20px 0;
+        }
+
+        /* Shopping Cart Styling */
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 15px 0;
+            align-items: center;
+        }
+
+        .cart-item img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-right: 15px;
+        }
+
+        .cart-item .item-details {
+            flex-grow: 1;
+            text-align: left;
+        }
+
+        .cart-item .item-details .item-name {
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .cart-item .item-details .item-price,
+        .cart-item .item-details .item-quantity {
+            font-size: 0.9rem;
+            color: #777;
+        }
+
+        .cart-summary {
+            border-top: 2px solid #f1f1f1;
+            padding-top: 20px;
+        }
+
+        /* Checkout Form Styling */
+        .checkout-form input, .checkout-form select, .checkout-form textarea {
+            margin-bottom: 15px;
+        }
+
+        .checkout-form button {
+            width: 100%;
+            padding: 10px;
+        }
+
+        .checkout-form .form-label {
+            font-weight: bold;
+        }
+
+        /* Button Styling */
+        .btn-custom {
+            background-color: #ff5722;
+            color: white;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            padding: 12px 20px;
+        }
+
+        .btn-custom:hover {
+            background-color: #e64a19;
+        }
+        #booking-btn{
+            padding: 10px 20px;
+            color: #ffffff;
+            border-radius: 10px;
+            text-decoration: none;
+            margin-top: 20px;
+            padding-top: 50px;
+        }
+        /* Navbar Styling */
+nav ul {
+  list-style-type: none;
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  padding: 10px;
+}
+
+nav ul li a:hover {
+  background-color: #f1c40f;
+  border-radius: 5px;
+}
+
+/* Booking Form Section Styling */
+#booking-form-section {
+  padding: 20px;
+  background-color: #f9f9f9;
+  display: none; /* Initially hidden */
+  text-align: center;
+}
+
+form {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+form input, form select, form button {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+form button {
+  background-color: #f1c40f;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+form button:hover {
+  background-color: #e67e22;
+}
+
+.ad-circle {
+            position: fixed;
+            right: 20px; /* Adjust distance from the right */
+            top: 80%; /* Center vertically */
+            transform: translateY(-50%);
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, #ff9500, #ff5722); /* Gradient color */
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 87, 34, 0.7);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: pulse 2s infinite; /* Pulsating animation */
+        }
+
+        .ad-circle:hover {
+            transform: translateY(-50%) scale(1.2); /* Slightly enlarges on hover */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5), 0 0 30px rgba(255, 87, 34, 0.9);
+        }
+
+        .ad-circle::after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            animation: spin 4s linear infinite; /* Rotating border effect */
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 87, 34, 0.7);
+            }
+            50% {
+                transform: scale(1.1);
+                box-shadow: 0 12px 25px rgba(0, 0, 0, 0.4), 0 0 30px rgba(255, 87, 34, 1);
+            }
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .content {
+            padding: 20px;
+            color: #fff;
+        }
+        .hero {
+    background-image: url('banner.jpg');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    text-align: center;
+    padding: 100px 20px;
+    position: relative;
+}
+
+.hero a {
+    background-color: #ff5722;
+    color: white;
+    text-decoration: none;
+    padding: 15px 30px;
+    font-size: 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.hero a:hover {
+    background-color: #e64a19;
+}
+
+/* Features Section Styling */
+.features {
+    padding: 50px 20px;
+    background-color: #f9f9f9;
+    text-align: center;
+}
+
+.features .feature-card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+}
+
+.features .feature-card:hover {
+    transform: translateY(-10px);
+}
+
+.features h4 a {
+    text-decoration: none;
+    font-size: 1.2rem;
+}
+
+/* Navbar Sticky */
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+/* Footer Section Styling */
+footer {
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+footer a {
+    color: white;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+.social-links a {
+    font-size: 20px;
+    margin: 0 10px;
+    transition: color 0.3s;
+}
+
+.social-links a:hover {
+    color: #ff5722;
+}
+
+/* Modal Styling */
+.modal-content {
+    border-radius: 10px;
+}
+
+.modal-header {
+    border-bottom: none;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .hero {
+        padding: 80px 20px;
+    }
+
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero p {
+        font-size: 1.2rem;
+    }
+
+    /* Adjusting the product card layout */
+    .product-card {
+        margin-bottom: 20px;
+        text-align: left;
+    }
+
+    .product-card img {
+        height: 180px;
+    }
+
+    .product-card .card-body {
+        padding: 12px;
+    }
+
+    .product-card .card-title {
+        font-size: 1rem;
+    }
+
+    .product-card .price {
+        font-size: 1.2rem;
+    }
+
+    /* Simplify navigation on small screens */
+    nav ul {
+        flex-direction: column;
+    }
+
+    nav ul li a {
+        padding: 10px;
+        font-size: 1.1rem;
+    }
+
+    .search-bar {
+        width: 100%;
+        padding: 12px;
+    }
+
+    .table {
+        width: 100%;
+        font-size: 0.9rem;
+    }
+
+    /* Adjust the booking form layout */
+    #booking-form-section form {
+        padding: 15px;
+    }
+
+    /* Adjust social links for mobile */
+    .social-links a {
+        font-size: 18px;
+    }
+
+    /* Adjust footer for mobile */
+    footer {
+        padding: 15px;
+    }
+}
+
+/* Other general styles */
+.product-card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    text-align: center;
+    transition: transform 0.3s;
+}
+
+.product-card:hover {
+    transform: translateY(-10px);
+}
+
+.product-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.product-card .card-body {
+    padding: 15px;
+}
+
+.product-card .card-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.product-card .price {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #ff5722;
+}
+
+.search-bar {
+    margin: 20px 0;
+}
+
+#booking-btn {
+    padding: 10px 20px;
+    color: #ffffff;
+    border-radius: 10px;
+    text-decoration: none;
+    margin-top: 20px;
+}
+
+#backBtn {
+    background-color: #e0e0e0;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+#backBtn:hover {
+    background-color: #ccc;
+}
+
+/* Button Styles */
+.btn-custom {
+    background-color: #ff5722;
+    color: white;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    padding: 12px 20px;
+}
+
+.btn-custom:hover {
+    background-color: #e64a19;
+}
+
+.ad-circle {
+    position: fixed;
+    right: 20px;
+    top: 80%;
+    transform: translateY(-50%);
+    width: 60px;
+    height: 60px;
+    background: radial-gradient(circle, #ff9500, #ff5722);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 87, 34, 0.7);
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: pulse 2s infinite;
+}
+
+.ad-circle:hover {
+    transform: translateY(-50%) scale(1.2);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5), 0 0 30px rgba(255, 87, 34, 0.9);
+}
+
+.ad-circle::after {
+    content: '';
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    animation: spin 4s linear infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 87, 34, 0.7);
+    }
+    50% {
+        transform: scale(1.1);
+        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.4), 0 0 30px rgba(255, 87, 34, 1);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.content {
+    padding: 20px;
+    color: #fff;
+}
+
+    </style>
+</head>
+<body>
+   <!-- Header Section -->
+ <!-- Navbar Section -->
+<header class="navbar navbar-expand-lg navbar-dark bg-success">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Village Connect</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link text-white" href="aal vyu.html">Buyer Rewards</a></li>
+                <li class="nav-item"><a class="nav-link text-white" href="prodekt.html">prodekt bay</a></li>
+                <li class="nav-item"><a class="nav-link text-white" href="werck.html">Live Workshops</a></li>
+                <li class="nav-item"><a class="nav-link text-white" href="nyu3.html">User Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link text-white" href="chet.html">chet</a></li>
+                <li class="nav-item"><a class="nav-link text-white" href="#login" data-bs-toggle="modal" data-bs-target="#authModal">Login</a></li>
+                <li class="nav-item"><a class="nav-link text-white" href="#upload-product" data-bs-toggle="modal" data-bs-target="#uploadModal">Upload Product</a></li>
+                <li class="nav-item"><a class="nav-link text-white" href="#seller-dashboard" data-bs-toggle="modal" data-bs-target="#sellerDashboardModal">Seller Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link text-white" href="#cart" data-bs-toggle="modal" data-bs-target="#cartModal">Cart</a></li>
+                <li><a href="#" id="booking-btn">Book Now</a></li> 
+            </ul>
+        </div>
+    </div>
+</header>
+<a href="next.html" target="_blank" class="ad-circle">
+    <i class="fas fa-shopping-cart"></i> <!-- Shopping Cart Icon -->
+</a>
+
+<section id="booking-form-section" style="display: none;">
+    <h2>Book Your Experience</h2>
+    <form action="/submit-booking" method="POST">
+      <label for="experience-name">Experience:</label>
+      <input type="text" id="experience-name" name="experience-name" value="Experience Title" readonly>
+
+      <label for="booking-date">Select Date:</label>
+      <input type="date" id="booking-date" name="booking-date" required>
+
+      <label for="number-of-guests">Number of Guests:</label>
+      <input type="number" id="number-of-guests" name="number-of-guests" min="1" required>
+
+      <label for="contact-info">Contact Info (Email or Phone):</label>
+      <input type="text" id="contact-info" name="contact-info" required>
+
+      <button type="submit">Confirm Booking</button>
+    </form>
+  </section>
+
+<!-- Seller Dashboard Navbar with Dropdown -->
+<nav class="navbar navbar-expand-lg ">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">E-Commerce Platform</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <!-- Seller Dashboard Dropdown -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="sellerDashboardDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Seller Dashboard
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="sellerDashboardDropdown">
+                        <li><a class="dropdown-item" id="addProductBtn">Add Product</a></li>
+                        <li><a class="dropdown-item" id="viewProductBtn">View Products</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Add Product Section -->
+<div class="container my-5" id="addProductSection" style="display: none;">
+    <div class="header text-center mb-4 animate__animated animate__fadeIn">
+        <h2 class="text-primary">Add New Product</h2>
+        <p class="text-muted">Fill in the details to add a new product to your catalog.</p>
+    </div>
+    
+    <!-- Add Product Form -->
+    <form id="productForm" class="bg-light p-4 rounded shadow-sm animate__animated animate__fadeIn animate__delay-1s">
+        <div class="mb-3">
+            <label for="productName" class="form-label">Product Name</label>
+            <input type="text" class="form-control" id="productName" placeholder="Enter product name" required>
+        </div>
+        <div class="mb-3">
+            <label for="productCategory" class="form-label">Category</label>
+            <select class="form-select" id="productCategory" required>
+                <option value="electronics">Electronics</option>
+                <option value="clothing">Clothing</option>
+                <option value="home">Home</option>
+                <!-- Add more categories here -->
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="productPrice" class="form-label">Price</label>
+            <input type="number" class="form-control" id="productPrice" placeholder="Enter product price" required>
+        </div>
+        <div class="mb-3">
+            <label for="productDescription" class="form-label">Description</label>
+            <textarea class="form-control" id="productDescription" rows="4" placeholder="Enter product description" required></textarea>
+        </div>
+        <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-primary">Add Product</button>
+            <button type="button" class="btn btn-secondary" id="backBtn">Back</button>
+        </div>
+    </form>
+</div>
+
+
+
+<!-- View Products Section -->
+<div class="container my-5" id="viewProductSection">
+    <div class="header text-center mb-4 animate__animated animate__fadeIn">
+        <h2 class="text-success">Manage Your Products</h2>
+        <p class="text-muted">Here’s a list of all your products. You can edit or delete any product.</p>
+    </div>
+
+    <!-- Product List Table -->
+    <div class="table-responsive">
+        <table class="table table-striped table-hover animate__animated animate__fadeIn">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Product Name</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="productTableBody">
+                <!-- Product rows will be dynamically added here -->
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cartModalLabel">Shopping Cart</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="cartItems">
+                    <!-- Example Cart Item -->
+                    <div class="cart-item">
+                        <img src="28.jpg" alt="Product 1">
+                        <div class="item-details">
+                            <div class="item-name">Handcrafted Basket</div>
+                            <div class="item-price">$15.00</div>
+                            <div class="item-quantity">Quantity: 1</div>
+                        </div>
+                        <div class="item-total">$15.00</div>
+                    </div>
+                </div>
+                <div class="cart-summary">
+                    <div><strong>Total:</strong> $15.00</div>
+                    <div class="mt-3">
+                        <a href="#checkout" data-bs-toggle="modal" data-bs-target="#checkoutModal" class="btn btn-success">Proceed to Checkout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Checkout Modal -->
+<div class="modal fade" id="checkoutModal" tabindex="-1" aria-labelledby="checkoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="checkoutModalLabel">Checkout</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="checkout-form">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Full Name</label>
+                        <input type="text" class="form-control" id="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="address" class="form-label">Shipping Address</label>
+                        <textarea class="form-control" id="address" rows="3" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="payment-method" class="form-label">Payment Method</label>
+                        <select class="form-select" id="payment-method" required>
+                            <option value="credit-card">Credit Card</option>
+                            <option value="paypal">PayPal</option>
+                            <option value="bank-transfer">Bank Transfer</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="card-details" class="form-label">Card Details (if Credit Card selected)</label>
+                        <input type="text" class="form-control" id="card-details" placeholder="Card Number" required>
+                    </div>
+                    <button type="submit" class="btn btn-success w-100">Complete Purchase</button>
+                    
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Seller Dashboard Modal -->
+<div class="modal fade" id="sellerDashboardModal" tabindex="-1" aria-labelledby="sellerDashboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="sellerDashboardModalLabel">Seller Dashboard</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h5>Simple interface for adding/editing products</h5>
+                <p>Manage your product listings here. You can add new products or edit existing ones.</p>
+                <button class="btn btn-primary">Add New Product</button>
+                <button class="btn btn-secondary">Edit Existing Product</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="container my-4">
+    <h2 class="my-4">Marketplace</h2>
+
+    <!-- Search and Category Filters -->
+    <div class="search-bar">
+        <input type="text" class="form-control" id="searchBar" placeholder="Search for products..." onkeyup="searchProducts()">
+    </div>
+    <div class="mb-4">
+        <select class="form-select" id="categoryFilter" onchange="filterByCategory()">
+            <option value="">Filter by Category</option>
+            <option value="handmade">Handmade</option>
+            <option value="organic">Organic</option>
+            <option value="crafts">Crafts</option>
+        </select>
+    </div>
+
+    <!-- Product Cards -->
+    <div class="row" id="productList">
+        <!-- Example product card -->
+        <div class="col-md-3 product-card" data-category="handmade">
+            <a href="product-details.html?product_id=1">
+                <img src="28.jpg" alt="Product 1">
+                <div class="card-body">
+                    <h5 class="card-title">Handcrafted Basket</h5>
+                    <p class="card-text">A beautiful handmade basket perfect for storage.</p>
+                    <p class="price">$15.00</p>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-3 product-card" data-category="organic">
+            <a href="product-details.html?product_id=2">
+                <img src="29.jpg" alt="Product 2">
+                <div class="card-body">
+                    <h5 class="card-title">Organic Honey</h5>
+                    <p class="card-text">Pure organic honey harvested from rural farms.</p>
+                    <p class="price">$8.00</p>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-3 product-card" data-category="mek">
+            <a href="product-details.html?product_id=3">
+                <img src="27.jpg" alt="Product 3">
+                <div class="card-body">
+                    <h5 class="card-title">mek</h5>
+                    <p class="card-text">Pure organic honey harvested from rural farms.</p>
+                    <p class="price">$8.00</p>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-3 product-card" data-category="hend">
+            <a href="product-details.html?product_id=4">
+                <img src="29.jpg" alt="Product 4">
+                <div class="card-body">
+                    <h5 class="card-title">hend</h5>
+                    <p class="card-text">Pure organic honey harvested from rural farms.</p>
+                    <p class="price">$8.00</p>
+                </div>
+            </a>
+        </div>
+        <!-- More product cards can go here -->
+    </div>
+</section>
+
+<!-- Product Details Page (Product 1 Example) -->
+<section class="product-details container" id="productDetails">
+    <div class="row">
+        <div class="col-md-6">
+            <img src="23.jpg" alt="Handcrafted Basket">
+        </div>
+        <div class="col-md-6">
+            <h2>Handcrafted Basket</h2>
+            <p>A beautiful handmade basket perfect for storage or decoration. Made with care and love by local artisans from rural areas.</p>
+            <p><strong>Material:</strong> Bamboo, Jute</p>
+            <p><strong>Dimensions:</strong> 12 x 12 inches</p>
+            <p><strong>Price:</strong> <span class="price">$15.00</span></p>
+            <button class="add-to-cart-btn" onclick="addToCart()">Add to Cart</button>
+        </div>
+    </div>
+</section>
+
+<!-- Hero Section -->
+<section class="hero">
+    <h1>Welcome to Village Connect</h1>
+    <p>Explore Rural Products and Support Local Talent</p>
+    <a class="btn btn-danger" href="nyu2.html">Product Reviews</a>
+    <a class="btn btn-danger" href="spesl.html">Advanced Product Search</a>
+
+</section>
+
+<!-- Feature Highlights Section -->
+<section class="features">
+    <div class="container">
+        <h2 class="mb-4">Our Features</h2>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="feature-card">
+                    <h4><a href="#marketplace">Buy Unique Handmade Products</a></h4>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="feature-card">
+                    <h4><a href="#tourism">Book Authentic Village Experiences</a></h4>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="feature-card">
+                    <h4><a href="#skill-exchange">Learn Skills from Rural Experts</a></h4>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="feature-card">
+                    <h4><a href="#kisan-bazaar">Farm-Fresh Produce at Your Doorstep</a></h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="uploadModalLabel">Upload New Product</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="#" method="post">
+                    <div class="mb-3">
+                        <label for="productName" class="form-label">Product Name</label>
+                        <input type="text" class="form-control" id="productName" placeholder="Enter product name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="productDescription" class="form-label">Product Description</label>
+                        <textarea class="form-control" id="productDescription" placeholder="Enter product description" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="productPrice" class="form-label">Price</label>
+                        <input type="number" class="form-control" id="productPrice" placeholder="Enter product price" required>
+                    </div>
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-primary w-100">Upload Product</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Login / Signup Modal -->
+<div class="modal fade" id="authModal" tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="authModalLabel">Login / Signup</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Login Form -->
+                <form action="#" method="post">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email Address</label>
+                        <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" placeholder="Enter your password" required>
+                    </div>
+                    <div class="mb-3 text-center">
+                        <button type="submit" class="btn btn-success w-100">Login</button>
+                    </div>
+                </form>
+
+                <div class="text-center mb-3">OR</div>
+
+                <!-- OTP or Email Signup/Login -->
+                <div class="text-center">
+                    <button class="btn btn-info w-100" data-bs-toggle="modal" data-bs-target="#otpModal">Login/Signup with OTP</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- OTP Modal -->
+<div class="modal fade" id="otpModal" tabindex="-1" aria-labelledby="otpModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="otpModalLabel">OTP Login / Signup</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- OTP Form -->
+                <form action="#" method="post">
+                    <div class="mb-3">
+                        <label for="mobile" class="form-label">Enter Mobile Number</label>
+                        <input type="text" class="form-control" id="mobile" placeholder="Enter your mobile number" required>
+                    </div>
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-primary w-100">Send OTP</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer Section -->
+<footer>
+    <div class="social-links mb-3">
+        <a href="#" class="text-white me-3">Facebook</a>
+        <a href="#" class="text-white me-3">Twitter</a>
+        <a href="#" class="text-white">Instagram</a>
+    </div>
+    <div class="footer-links mb-3">
+        <a href="#" class="text-white me-3">Terms of Service</a>
+        <a href="#" class="text-white me-3">Privacy Policy</a>
+        <a href="#contact-us" class="text-white">Contact Us</a>
+    </div>
+    <p>&copy; 2024 Village Connect. All Rights Reserved.</p>
+</footer>
+<script>
+    function searchProducts() {
+        const searchInput = document.getElementById("searchBar").value.toLowerCase();
+        const products = document.querySelectorAll(".product-card");
+        
+        products.forEach(product => {
+            const title = product.querySelector(".card-title").textContent.toLowerCase();
+            if (title.includes(searchInput)) {
+                product.style.display = "block";
+            } else {
+                product.style.display = "none";
+            }
+        });
+    }
+
+    function filterByCategory() {
+        const selectedCategory = document.getElementById("categoryFilter").value;
+        const products = document.querySelectorAll(".product-card");
+        
+        products.forEach(product => {
+            const category = product.getAttribute("data-category");
+            if (selectedCategory === "" || selectedCategory === category) {
+                product.style.display = "block";
+            } else {
+                product.style.display = "none";
+            }
+        });
+    }
+
+    function addToCart() {
+        alert("Product added to cart!");
+    }
+    // Get references to the buttons and sections
+const addProductBtn = document.getElementById('addProductBtn');
+const viewProductBtn = document.getElementById('viewProductBtn');
+const addProductSection = document.getElementById('addProductSection');
+const viewProductSection = document.getElementById('viewProductSection');
+const backBtn = document.getElementById('backBtn');
+
+// Example product list for demonstration
+let products = [];
+
+// Event listeners for the buttons in the dropdown
+addProductBtn.addEventListener('click', () => {
+    addProductSection.style.display = 'block';
+    viewProductSection.style.display = 'none';
+    addProductSection.classList.add('animate__fadeIn'); // Add animation on page transition
+});
+
+viewProductBtn.addEventListener('click', () => {
+    addProductSection.style.display = 'none';
+    viewProductSection.style.display = 'block';
+    viewProductSection.classList.add('animate__fadeIn'); // Add animation on page transition
+});
+
+// Back button functionality
+backBtn.addEventListener('click', () => {
+    addProductSection.style.display = 'none';
+    viewProductSection.style.display = 'block';
+    viewProductSection.classList.add('animate__fadeIn');
+});
+
+// Handling the Add Product form submission
+document.getElementById('productForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    
+    const name = document.getElementById('productName').value;
+    const category = document.getElementById('productCategory').value;
+    const price = parseFloat(document.getElementById('productPrice').value);
+    const description = document.getElementById('productDescription').value;
+
+    // Add the new product to the products array
+    const newProduct = {
+        id: products.length + 1,
+        name,
+        category,
+        price,
+        description
+    };
+    
+    products.push(newProduct);
+    
+    // Clear the form inputs
+    document.getElementById('productForm').reset();
+
+    // Render the updated product list in the View Products section
+    renderProductList();
+    
+    // Switch back to the View Products section
+    viewProductSection.style.display = 'block';
+    addProductSection.style.display = 'none';
+});
+
+// Function to render the product list dynamically
+function renderProductList() {
+    const tableBody = document.getElementById("productTableBody");
+    tableBody.innerHTML = '';  // Clear previous rows
+
+    // Add new rows for each product
+    products.forEach(product => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${product.name}</td>
+            <td>${product.category}</td>
+            <td>$${product.price.toFixed(2)}</td>
+            <td>
+                <button class="btn btn-warning btn-sm" onclick="editProduct(${product.id})">Edit</button>
+                <button class="btn btn-danger btn-sm" onclick="deleteProduct(${product.id})">Delete</button>
+            </td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
+
+// Edit Product functionality (placeholder)
+function editProduct(id) {
+    const product = products.find(p => p.id === id);
+    console.log("Editing product", product);
+}
+
+// Delete Product functionality (placeholder)
+function deleteProduct(id) {
+    const index = products.findIndex(p => p.id === id);
+    if (index !== -1) {
+        products.splice(index, 1);
+        renderProductList(); // Re-render after deletion
+    }
+}
+
+// Initialize product list render on page load
+renderProductList();
+  // Filter products by category
+  function filterByCategory() {
+        const selectedCategory = document.getElementById('categoryFilter').value;
+        const products = document.querySelectorAll('.product-card');
+
+        products.forEach(product => {
+            const productCategory = product.getAttribute('data-category');
+            if (selectedCategory === "" || productCategory === selectedCategory) {
+                product.style.display = 'block';
+            } else {
+                product.style.display = 'none';
+            }
+        });
+    }
+
+    // Search for products by name
+    function searchProducts() {
+        const searchQuery = document.getElementById('searchBar').value.toLowerCase();
+        const products = document.querySelectorAll('.product-card');
+
+        products.forEach(product => {
+            const productName = product.querySelector('.card-title').textContent.toLowerCase();
+            if (productName.includes(searchQuery)) {
+                product.style.display = 'block';
+            } else {
+                product.style.display = 'none';
+            }
+        });
+    }
+// Add event listener to the Booking button
+document.getElementById("booking-btn").addEventListener("click", function() {
+  var bookingForm = document.getElementById("booking-form-section");
+
+  // Toggle visibility of the booking form
+  if (bookingForm.style.display === "none" || bookingForm.style.display === "") {
+    bookingForm.style.display = "block";  // Show the booking form
+  } else {
+    bookingForm.style.display = "none";   // Hide the booking form
+  }
+});
+
+</script>
+</body>
+</html>

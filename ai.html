@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Village Connect Platform</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Nunito:wght@300;600&display=swap" rel="stylesheet">
+    <style>
+        /* Global Styling */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Navigation Bar */
+        nav {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px 0;
+            z-index: 999;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        nav a {
+            color: #333;
+            padding: 14px 25px;
+            font-weight: 600;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 30px;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            height: 80vh;
+            background: url('https://via.placeholder.com/1920x1080') no-repeat center center;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            font-size: 3rem;
+            font-weight: 700;
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .hero-section h1 {
+            font-size: 50px;
+            animation: slideUp 1s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(100px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Section Titles */
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin: 60px 0;
+            font-weight: 700;
+            color: #333;
+        }
+
+        /* Product Cards */
+        .product-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            width: 100%;
+            margin: 10px;
+            text-align: center;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 20px;
+        }
+
+        .product-card h5 {
+            font-size: 1.5rem;
+            margin-top: 20px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .product-card .price {
+            font-size: 1.2rem;
+            color: #ff5722;
+            font-weight: bold;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Section Content */
+        .section-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        /* Button Styles */
+        .btn-primary {
+            background-color: #4CAF50;
+            border-radius: 30px;
+            padding: 12px 30px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #45a049;
+        }
+
+        /* AI Recommendations */
+        .recommendation-section {
+            background-color: #e8f5e9;
+            padding: 50px 0;
+        }
+
+        /* Animations on Hover */
+        .product-card:hover .price {
+            color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#marketplace">Marketplace</a>
+        <a href="#tourism">Tourism</a>
+        <a href="#skill-exchange">Skill Exchange</a>
+        <a href="#kisan-bazaar">Kisan Bazaar</a>
+        <a href="#recommendations">AI Recommendations</a>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section" id="home">
+        <h1>Welcome to Village Connect</h1>
+    </section>
+
+    <!-- Marketplace Section -->
+    <div class="container" id="marketplace">
+        <div class="section-title">
+            <h2>Marketplace</h2>
+            <p>Explore unique products from local farmers and artisans.</p>
+        </div>
+        <div class="section-content">
+            <div class="product-card">
+                <img src="https://via.placeholder.com/300" alt="Product Image">
+                <h5>Fresh Organic Apples</h5>
+                <p class="price">$5.99/kg</p>
+            </div>
+            <div class="product-card">
+                <img src="https://via.placeholder.com/300" alt="Product Image">
+                <h5>Handmade Wooden Chairs</h5>
+                <p class="price">$29.99</p>
+            </div>
+            <div class="product-card">
+                <img src="https://via.placeholder.com/300" alt="Product Image">
+                <h5>Fresh Free-Range Eggs</h5>
+                <p class="price">$3.99/dozen</p>
+            </div>
+            <div class="product-card">
+                <img src="https://via.placeholder.com/300" alt="Product Image">
+                <h5>Handwoven Baskets</h5>
+                <p class="price">$12.99</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Recommendations Section -->
+    <div class="container recommendation-section" id="recommendations">
+        <div class="section-title">
+            <h2>AI-Powered Recommendations</h2>
+            <p>Based on your preferences, here are some suggestions:</p>
+        </div>
+        <div class="section-content">
+            <div class="product-card">
+                <img src="https://via.placeholder.com/300" alt="Product Image">
+                <h5>Handmade Pottery</h5>
+                <p class="price">$25.99</p>
+            </div>
+            <div class="product-card">
+                <img src="https://via.placeholder.com/300" alt="Product Image">
+                <h5>Seasonal Organic Carrots</h5>
+                <p class="price">$2.99/kg</p>
+            </div>
+            <div class="product-card">
+                <img src="https://via.placeholder.com/300" alt="Product Image">
+                <h5>Fresh Green Tea Leaves</h5>
+                <p class="price">$8.99</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript for Dynamic Behavior -->
+    <script>
+        // Add your JavaScript functionality here (e.g., dynamic product recommendations)
+    </script>
+
+</body>
+</html>
